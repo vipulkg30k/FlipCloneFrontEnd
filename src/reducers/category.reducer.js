@@ -1,15 +1,16 @@
-import { categoryConstants } from "../actions/constants"
+import { categoryConstants } from "../actions/constants";
 
 const initState = {
     categories: [],
     loading: false,
     error: null
-}
+};
+
 
 const buildNewCategories = (parentId, categories, category) => {
-    let myCategories =[];
+    let myCategories = [];
 
-    if(parentId === undefined){
+    if(parentId == undefined){
         return [
             ...categories,
             {
@@ -18,12 +19,12 @@ const buildNewCategories = (parentId, categories, category) => {
                 slug: category.slug,
                 children: []
             }
-        ]
+        ];
     }
-
+    
     for(let cat of categories){
 
-        if(cat._id === parentId){
+        if(cat._id == parentId){
             myCategories.push({
                 ...cat,
                 children: cat.children ? buildNewCategories(parentId, [...cat.children, {
@@ -32,18 +33,22 @@ const buildNewCategories = (parentId, categories, category) => {
                     slug: category.slug,
                     parentId: category.parentId,
                     children: category.children
-                }], category) : [] 
+                }], category) : []
             });
         }else{
             myCategories.push({
                 ...cat,
-                children: cat.children ? buildNewCategories(parentId, cat.children, category) : [] 
+                children: cat.children ? buildNewCategories(parentId, cat.children, category) : []
             });
         }
+
+        
     }
+
 
     return myCategories;
 }
+
 
 export default (state = initState, action) => {
     switch(action.type){
@@ -62,12 +67,12 @@ export default (state = initState, action) => {
         case categoryConstants.ADD_NEW_CATEGORY_SUCCESS:
             const category = action.payload.category;
             const updatedCategories = buildNewCategories(category.parentId, state.categories, category);
-            console.log("updatedCategories: ",updatedCategories)
-
+            console.log('updated categoires', updatedCategories);
+            
             state = {
                 ...state,
                 categories: updatedCategories,
-                loading: false
+                loading: false,
             }
             break;
         case categoryConstants.ADD_NEW_CATEGORY_FAILURE:

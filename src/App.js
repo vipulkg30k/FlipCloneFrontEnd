@@ -23,10 +23,11 @@ function App() {
   }, [auth.authenticate]);
 
   useEffect(() => {
+    console.log('App.js - updateCart')
     dispatch(updateCart());
-  }, []);
+  }, [auth.authenticate]);
 
-
+  
   return (
     <div className="App">
       <Router>

@@ -4,7 +4,7 @@ import Layout from '../../components/Layout'
 import Card from '../../components/UI/Card';
 import { generatePublicUrl } from '../../uriConfig';
 import CartItem from './CartItem';
-import { addToCart } from '../../actions';
+import { addToCart, getCartItems } from '../../actions';
 
 import './style.css';
 
@@ -24,6 +24,7 @@ if logged in then add products to users cart database from localStorage
 const CartPage = (props) => {
 
     const cart = useSelector(state => state.cart);
+    const auth = useSelector(state => state.auth);
     // const cartItems = cart.cartItems;
     const [cartItems, setCartItems] = useState(cart.cartItems);
     const dispatch = useDispatch();
@@ -31,6 +32,12 @@ const CartPage = (props) => {
     useEffect(() => {
        setCartItems(cart.cartItems); 
     }, [cart.cartItems]);
+
+    useEffect(() => {
+        if(auth.authenticate){
+            dispatch(getCartItems());
+        }
+    }, [auth.authenticate]);
 
     const onQuantityIncrement = (_id, qty) => {
         //console.log({_id, qty});
@@ -66,7 +73,7 @@ const CartPage = (props) => {
                 style={{
                     width: '500px'
                 }}>
-
+                    
                 </Card>
             </div>
         </Layout>

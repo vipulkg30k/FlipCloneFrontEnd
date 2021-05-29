@@ -189,11 +189,18 @@ const CheckoutPage = (props) => {
     return (
       <Layout>
         <Card>
-          <div>Thank you</div>
+          <div>Thank you, You can Track Your order from Order Section</div>
         </Card>
       </Layout>
     );
   }
+
+  // useEffect(() => {
+  //   if (confirmOrder && user.placedOrderId) {
+  //     props.history.push(`/order_details/${user.placedOrderId}`);
+  //   }
+  // }, [user.placedOrderId]);
+
 
   return (
     <Layout>
